@@ -19,4 +19,27 @@ int main(){
 
 	int n;
 	int game_mode;
+
+
+        printf("*** Tic Tac Toe Game ***\n");
+
+	printf("Enter Board Size n (3 <= n <= 10): ");
+	scanf("%d", &n);
+	if(n < 3 || n > 10){
+		printf("Invalid Board Size!\3");
+		return 0;
+		}
+
+	printf("* Game Modes *\n");
+      	printf("1. Two Playersw (User VS User)\n");
+	printf("2. User VS Computer\n");
+	printf("3. Three Players\n");
+	printf("Select Game Mode: \n");
+	scanf("%d", &game_mode);
+	return 0;
 }
+
+	
+
+
+
