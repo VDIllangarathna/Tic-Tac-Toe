@@ -226,7 +226,62 @@ void Two_Player_Game(int n){
 }
 
         
+  
+//2. User VS Computer Mode
+
    void User_VS_Computer_Game(int n){
-   }
+    char** board = initialize_board(n);
+    FILE* logFile = fopen("game.txt", "w");
+
+    char symbol[2] = {'x', 'o'};
+    int turn = 0;
+    int row, column;
+    int game_over = 0;
+
+    while(!game_over){
+        display_board(board, n);
+        if(turn == 0){
+            printf("Enter your move (row column): ");
+            scanf("%d %d", &row, &column);
+
+            if(!is_valid_move(board, n, row, column)){
+            printf("Invalid move! Try Again.\n");
+            continue;
+        }
+    }
+    else{
+        computer_move(board, n, &row, &column);
+        printf("Computer playes at (row column):  %d %d\n", row, column);
+    }
+
+    board[row][column] = symbol[turn];
+    log_file(logFile, board, n);
+
+    if(check_win(board, n, symbol[turn])){
+            display_board(board, n);
+            if(turn == 0){
+                printf("You Win\n");
+            }
+            else{
+                printf("Computer Win\n");
+            }
+            game_over = 1;
+        }
+        else if(check_draw(board, n)){
+            display_board(board, n);
+            printf("It's a draw\n");
+            game_over = 1;
+        }
+        else{
+            turn = 1-turn;
+        }
+
+    }
+    fclose(logFile);
+    for(int i=0; i<n; i++){
+        free(board[i]);
+    }
+    free(board);
+}
    void Multiplayer_Game(int n){
   }
