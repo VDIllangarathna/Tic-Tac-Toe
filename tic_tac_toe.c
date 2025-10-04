@@ -10,7 +10,7 @@ int check_draw(char** board, int n);
 void log_file(FILE* logfile, char** board, int n);
 void computer_move(char** board, int n, int *row, int *column);
 
-//game modes
+//Game Modes
 void Two_Player_Game(int n);
 void User_VS_Computer_Game(int n);
 void Multiplayer_Game(int n);
@@ -21,16 +21,17 @@ int main (){
 	int n;
 	int game_mode;
 
-
+//Welcome Message
         printf("*** Tic Tac Toe Game ***\n\n");
 
+//Get Board Size
 	printf("Enter Board Size n (3 <= n <= 10): ");
 	scanf("%d", &n);
 	if(n < 3 || n > 10){
 		printf("Invalid Board Size!\n");
 		return 0;
 		}
-
+//Coose Game Mode
 	printf("\n* Game Modes * \n");
       	printf("1. Two Players (User VS User)\n");
 	printf("2. User VS Computer\n");
@@ -70,7 +71,7 @@ char** initialize_board(int n){
 void display_board(char** board, int n) {
     printf("  ");
     for(int column=0; column<n; column++){
-        printf("  %d ", column);
+        printf("   %d", column);
     }
     printf("\n");
     for(int row=0; row<n; row++){
@@ -284,4 +285,66 @@ void Two_Player_Game(int n){
     free(board);
 }
    void Multiplayer_Game(int n){
-  }
+	   char** board = initialize_board(n);
+    FILE* logFile = fopen("game.txt", "w");
+
+    char symbol[3] = {'x', 'o', 'z'};
+    int human_or_computer[3] = {0, 0, 0}; //0-human, 1-computer
+    int turn = 0;
+    int row, column;
+    int game_over = 0;
+
+    //Player 1 must be human and Ask for Player  2 and Player 3
+    human_or_computer[0] = 0;
+
+    printf("\nIs Player 2 a Human or Computer (0-Human, 1-Computer): ");
+    scanf("%d", &human_or_computer[1]);
+    printf("Is Player 3 a Human or Computer (0-Human, 1-Computer): ");
+    scanf("%d", &human_or_computer[2]);
+
+    while(!game_over){
+        display_board(board, n);
+
+        //Human Move
+        if(human_or_computer[turn] == 0){
+   printf("\n Player %c, enter your move (row column): ", symbol[turn]);
+            scanf("%d %d", &row, &column);
+
+            if(!is_valid_move(board, n, row, column)){
+                printf("\nInvalid move! Try Again.\n");
+                continue;
+            }
+        }
+
+    //Computer Move
+       else{
+        computer_move(board, n, &row, &column);
+        printf("Computer %c Playes at (row column): %d %d\n", symbol[turn], row, column);
+       }
+       board[row][column] = symbol[turn];
+       log_file(logFile, board, n);
+
+       if(check_win(board, n, symbol[turn])){
+        display_board(board, n);
+        printf("Player %c wins\n", symbol[turn]);
+        game_over = 1;
+
+       }
+
+       else if(check_draw(board, n)){
+        display_board(board, n);
+        printf("It's Draw\n");
+        game_over = 1;
+    }
+    else{
+        turn = (turn+1)%3;
+       }
+    }
+    fclose(logFile);
+    for(int i=0; i<n; i++){
+        free(board[i]);
+    }
+    free(board);
+}
+
+  
