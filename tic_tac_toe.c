@@ -104,9 +104,9 @@ int is_valid_move(char** board, int n, int row, int column){
     int check_win(char** board, int n, char symbol){
         
         //Chech rows
-        for(int i=0; i<n; i++){
+        for(int i=0; i<3; i++){
             int win = 1;
-            for(int j=0; j<n; j++){
+            for(int j=0; j<3; j++){
                 if(board[i][j] != symbol){
                     win = 0;
                     break;
@@ -117,9 +117,9 @@ int is_valid_move(char** board, int n, int row, int column){
             
             
     //Check columns
-    for(int j=0; j<n; j++){
+    for(int j=0; j<3; j++){
             int win = 1;
-            for(int i=0; i<n; i++){
+            for(int i=0; i<3; i++){
                 if(board[i][j] != symbol){
                     win = 0;
                     break;
@@ -130,8 +130,8 @@ int is_valid_move(char** board, int n, int row, int column){
         
     //Check diagonal - top right to bottom left
     int win = 1;
-    for(int i=0; i<n; i++){
-        if(board[i][n-1-i] != symbol){
+    for(int i=0; i<3; i++){
+        if(board[i][2-i] != symbol){
             win = 0;
             break;
         }
@@ -140,7 +140,7 @@ int is_valid_move(char** board, int n, int row, int column){
     
     //Check diagonal - top left to bottom right
     win = 1;
-    for(int i=0; i<n; i++){
+    for(int i=0; i<3; i++){
         if(board[i][i] != symbol){
             win = 0;
             break;
